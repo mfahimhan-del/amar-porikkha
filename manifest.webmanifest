@@ -1,1 +1,14 @@
-{"name":"আমার পরীক্ষা 2.0","short_name":"আমার পরীক্ষা","start_url":"./","display":"standalone","background_color":"#f2f5f9","theme_color":"#173b66","lang":"bn"}
+
+{
+  "name": "আমার পরীক্ষা 2.0",
+  "short_name": "আমার পরীক্ষা",
+  "id": "/amar-porikkha/",
+  "start_url": "/amar-porikkha/",
+  "scope": "/amar-porikkha/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f2f5f9",
+  "theme_color": "#173b66",
+  "lang": "bn",
+  "description": "JLPT N5 থেকে N1 পর্যন্ত নিজের প্রশ্ন তৈরি করে MCQ ও লিখিত পরীক্ষা দেওয়ার অ্যাপ।"
+}
