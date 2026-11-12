@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#173b66">
-<meta name="description" content="নিজের প্রশ্ন বেছে JLPT অনুশীলন ও পরীক্ষা তৈরি করুন।">
+<meta name="description" content="মিননা নো নিহোঙ্গো অধ্যায় অনুযায়ী নিজের পরীক্ষা তৈরি করুন।">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="stylesheet" href="style.css">
 <title>আমার পরীক্ষা 2.0</title>
@@ -17,30 +17,77 @@
 <button class="tab" data-tab="bank">প্রশ্ন যোগ</button>
 <button class="tab" data-tab="results">ফলাফল</button>
 </nav>
+
 <section id="make" class="panel">
 <h2>পরীক্ষার সেটিংস</h2>
 <div class="grid">
-<label>JLPT স্তর<select id="level"><option>N5</option><option>N4</option><option>N3</option><option>N2</option><option>N1</option></select></label>
-<label>প্রশ্নের ধরন<select id="type"><option value="all">সব ধরন</option><option>MCQ</option><option>লিখিত</option><option>শূন্যস্থান</option><option>অনুবাদ</option></select></label>
-<label>বিষয়<select id="subject"><option value="all">সব বিষয়</option><option>Vocabulary</option><option>Grammar</option><option>Kanji</option><option>Reading</option><option>Listening</option></select></label>
-<label>সময় (মিনিট)<input id="minutes" type="number" min="1" value="15"></label>
+<label>JLPT স্তর
+<select id="level"><option>N5</option><option>N4</option><option>N3</option><option>N2</option><option>N1</option></select>
+</label>
+<label>প্রশ্নের ধরন
+<select id="type">
+<option value="all">সব ধরন</option><option>MCQ</option><option>শূন্যস্থান</option><option>লিখিত</option><option>অনুবাদ</option>
+</select>
+</label>
+<label>বিষয়
+<select id="subject">
+<option value="all">সব বিষয়</option><option>Vocabulary</option><option>Grammar</option><option>Kanji</option><option>Reading</option><option>Listening</option>
+</select>
+</label>
+<label>প্রশ্নসংখ্যা
+<select id="count"><option>10</option><option selected>20</option><option>30</option><option>50</option><option>100</option></select>
+</label>
+<label>সময় (মিনিট)
+<input id="minutes" type="number" min="1" max="300" value="15">
+</label>
 </div>
-<h3>প্রশ্ন বেছে নাও</h3><div id="questionList"></div>
+
+<h3>মিননা নো নিহোঙ্গোর অধ্যায় বেছে নাও</h3>
+<p class="muted">এক বা একাধিক অধ্যায় নির্বাচন করো। সব অধ্যায় নিতে “সব নির্বাচন” চাপো।</p>
+<div class="chapter-actions">
+<button type="button" id="selectAllChapters" class="secondary">সব নির্বাচন</button>
+<button type="button" id="clearChapters" class="secondary">সব বাদ</button>
+</div>
+<div id="chapterList" class="chapter-grid"></div>
+<p id="availableInfo" class="muted" aria-live="polite"></p>
+
+<h3>প্রশ্ন বেছে নাও</h3>
+<p class="muted">নিচে প্রশ্নের তালিকা থেকে নিজে বাছতে পারো। অথবা কোনো প্রশ্ন না বেছে “এলোমেলো প্রশ্ন” শুরু করলে নির্বাচিত অধ্যায় থেকে প্রশ্ন নেওয়া হবে।</p>
+<div id="questionList"></div>
 <button id="start" class="primary">নির্বাচিত প্রশ্ন দিয়ে পরীক্ষা শুরু</button>
+<button id="randomStart" class="primary secondary">এলোমেলো প্রশ্ন দিয়ে পরীক্ষা শুরু</button>
 <div id="exam" hidden></div>
 </section>
+
 <section id="bank" class="panel" hidden>
 <h2>নতুন প্রশ্ন যোগ করো</h2>
-<label>প্রশ্নের স্তর<select id="qlevel"><option>N5</option><option>N4</option><option>N3</option><option>N2</option><option>N1</option></select></label>
-<label>বিষয়<select id="qsubject"><option>Vocabulary</option><option>Grammar</option><option>Kanji</option><option>Reading</option><option>Listening</option></select></label>
-<label>প্রশ্নের ধরন<select id="qtype"><option>MCQ</option><option>লিখিত</option><option>শূন্যস্থান</option><option>অনুবাদ</option></select></label>
+<label>প্রশ্নের স্তর
+<select id="qlevel"><option>N5</option><option>N4</option><option>N3</option><option>N2</option><option>N1</option></select>
+</label>
+<label>অধ্যায়
+<select id="qchapter"></select>
+</label>
+<label>বিষয়
+<select id="qsubject"><option>Vocabulary</option><option>Grammar</option><option>Kanji</option><option>Reading</option><option>Listening</option></select>
+</label>
+<label>প্রশ্নের ধরন
+<select id="qtype"><option>MCQ</option><option>শূন্যস্থান</option><option>লিখিত</option><option>অনুবাদ</option></select>
+</label>
 <label>প্রশ্ন<textarea id="qtext" placeholder="প্রশ্ন লিখুন"></textarea></label>
-<div id="choices"><label>অপশন ১<input class="choice" placeholder="অপশন ১"></label><label>অপশন ২<input class="choice" placeholder="অপশন ২"></label><label>অপশন ৩<input class="choice" placeholder="অপশন ৩"></label><label>অপশন ৪<input class="choice" placeholder="অপশন ৪"></label></div>
+<div id="choices">
+<label>অপশন ১<input class="choice" placeholder="অপশন ১"></label>
+<label>অপশন ২<input class="choice" placeholder="অপশন ২"></label>
+<label>অপশন ৩<input class="choice" placeholder="অপশন ৩"></label>
+<label>অপশন ৪<input class="choice" placeholder="অপশন ৪"></label>
+</div>
 <label>সঠিক উত্তর / নমুনা উত্তর<input id="answer" placeholder="সঠিক উত্তর লিখুন"></label>
-<button id="save" class="primary">প্রশ্ন সংরক্ষণ</button><p id="saveMsg" role="status"></p>
+<button id="save" class="primary">প্রশ্ন সংরক্ষণ</button>
+<p id="saveMsg" role="status"></p>
 </section>
+
 <section id="results" class="panel" hidden><h2>আগের ফলাফল</h2><div id="resultList">এখনো কোনো ফলাফল নেই।</div></section>
 </main>
 <footer>প্রশ্ন ও ফলাফল এই ডিভাইসের ব্রাউজারে সংরক্ষিত থাকে।</footer>
 <script src="app.js"></script>
-</body></html>
+</body>
+</html>
